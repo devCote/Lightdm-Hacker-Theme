@@ -6,12 +6,12 @@
     isAuthenticated,
   } from '../store'
   import lightdm from '../constants/lightdm'
+  import Form from './Form.svelte'
 
   let username ='devcote' 
   let password = ''
 
-  const handleOnSubmit = () => {
-
+  let handleOnSubmit = () => {
     lightdm.cancel_authentication()
     lightdm.authenticate(username)
     setTimeout(() => {
@@ -24,24 +24,11 @@
 <div class="main_container flex flex-col items-start justify-center">
 
   {#if $isAuthenticationError}
-    <h1 transition:slide class="mb-5 mt-5 text-green-400 error-message">Invalid Password</h1>
+    <h1 transition:slide class="message">ACCESS DENIED</h1>
   {:else if $isAuthenticated }
-    <h1 transition:slide>ACCESS GRANTED</h1>
+    <h1 transition:slide class="message">ACCESS GRANTED</h1>
   {:else}
-  <form
-    on:submit|preventDefault={handleOnSubmit}
-  >
-    <h1 class="user">Devcote</h1>
-    <!-- svelte-ignore a11y-autofocus -->
-    <input
-      type="password"
-      placeholder="Password"
-      bind:value={password}
-      autocomplete="off"
-      autofocus
-    />
-  </form>
-  
+  <Form {handleOnSubmit} {password} />
   {/if}
 
 </div>
@@ -55,25 +42,10 @@
     padding: 30px 50px;
   }
 
-  h1 {
+  .message {
     color: #0f0;
     font-weight: bold;
     letter-spacing: 2px;
     font-size: 2em;
   }
-
-  input {
-    color: #0f0;
-    font-size: 1.5em;
-    border: transparent;
-    background: transparent !important;
-    outline: none;
-    margin-top: 10px;
-
-  }
-
-  input::placeholder {
-    color: #0f0;
-  }
-
 </style>
