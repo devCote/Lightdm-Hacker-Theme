@@ -1,0 +1,6 @@
+[theme]
+name=devcote
+description=devcote's lightdm webkit2 theme
+engine=lightdm-webkit2-greeter
+url=index.html
+session=dwm
