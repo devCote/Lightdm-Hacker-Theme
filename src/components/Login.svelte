@@ -3,6 +3,7 @@
 
   import {
     isAuthenticationError,
+    isAuthenticated,
   } from '../store'
   import lightdm from '../constants/lightdm'
 
@@ -13,40 +14,40 @@
 
     lightdm.cancel_authentication()
     lightdm.authenticate(username)
-
     setTimeout(() => {
-      console.log(`responding for user ${username}`)
       lightdm.respond(password)
     }, 1000)
   }
 </script>
 
 
+<div class="main_container flex flex-col items-start justify-center">
 
-    <form
-      class="flex flex-col items-start justify-center"
-      on:submit|preventDefault={handleOnSubmit}
-    >
-      <h1 class="user">Devcote</h1>
+  {#if $isAuthenticationError}
+    <h1 transition:slide class="mb-5 mt-5 text-green-400 error-message">Invalid Password</h1>
+  {:else if $isAuthenticated }
+    <h1 transition:slide>ACCESS GRANTED</h1>
+  {:else}
+  <form
+    on:submit|preventDefault={handleOnSubmit}
+  >
+    <h1 class="user">Devcote</h1>
+    <!-- svelte-ignore a11y-autofocus -->
+    <input
+      type="password"
+      placeholder="Password"
+      bind:value={password}
+      autocomplete="off"
+      autofocus
+    />
+  </form>
+  
+  {/if}
 
-      {#if $isAuthenticationError}
-        <span transition:slide class="mb-5 mt-5 text-green-400 error-message"
-          >Invalid Password</span
-        >
-      {/if}
-
-      <!-- svelte-ignore a11y-autofocus -->
-      <input
-        type="password"
-        placeholder="Password"
-        bind:value={password}
-        autocomplete="off"
-        autofocus
-      />
-    </form>
+</div>
 
 <style>
-  form {
+  .main_container {
     font-family: 'june';
     background: rgba(0, 20, 0, 0.3);
     border: 1px solid #0f0;
@@ -54,7 +55,7 @@
     padding: 30px 50px;
   }
 
-  .user {
+  h1 {
     color: #0f0;
     font-weight: bold;
     letter-spacing: 2px;
