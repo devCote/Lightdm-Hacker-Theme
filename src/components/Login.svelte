@@ -1,15 +1,13 @@
 <script>
   import { slide } from 'svelte/transition'
 
-  import {
-    isAuthenticationError,
-    isAuthenticated,
-  } from '../store'
+  import { isAuthenticationError, isAuthenticated } from '../store'
   import lightdm from '../constants/lightdm'
   import Form from './Form.svelte'
 
-  let username ='devcote' 
+  let username = 'devcote'
   let password = ''
+  let sessions = lightdm.sessions
 
   let handleOnSubmit = () => {
     lightdm.cancel_authentication()
@@ -20,17 +18,19 @@
   }
 </script>
 
-
 <div class="main_container flex flex-col items-start justify-center">
-
   {#if $isAuthenticationError}
     <h1 transition:slide class="message">ACCESS DENIED</h1>
-  {:else if $isAuthenticated }
+  {:else if $isAuthenticated}
     <h1 transition:slide class="message">ACCESS GRANTED</h1>
   {:else}
-  <Form {handleOnSubmit} {password} />
+    <Form {handleOnSubmit} {password} />
+    <ul>
+      {#each sessions as session}
+        <li>{session.key}</li>
+      {/each}
+    </ul>
   {/if}
-
 </div>
 
 <style>

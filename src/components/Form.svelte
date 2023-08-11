@@ -1,24 +1,21 @@
 <script>
-  export let password;
-  export let handleOnSubmit;
+  export let password
+  export let handleOnSubmit
 </script>
 
-  <form
-    on:submit|preventDefault={handleOnSubmit}
-  >
-    <h1 class="user">Devcote</h1>
-    <!-- svelte-ignore a11y-autofocus -->
-    <input
-      type="password"
-      placeholder="Password"
-      bind:value={password}
-      autocomplete="off"
-      autofocus
-    />
-  </form>
+<form on:submit|preventDefault={handleOnSubmit}>
+  <h1 class="user">Devcote</h1>
+  <!-- svelte-ignore a11y-autofocus -->
+  <input
+    type="password"
+    placeholder="Password"
+    bind:value={password}
+    autocomplete="off"
+    autofocus
+  />
+</form>
 
 <style>
-
   h1 {
     color: #0f0;
     font-weight: bold;
