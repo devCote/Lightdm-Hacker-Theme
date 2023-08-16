@@ -5,13 +5,13 @@
   let canvas;
 
   const matrixOptions = {
-    font_size: 22,
+    font_size: 26,
     width: window.innerWidth,
     height: window.innerHeight,
     font: 'monospace',
     color: '#0f0',
     columns: 0,
-    speed: 4,
+    speed: 3,
     background: 'rgba(0,0,0, 0.05)'
   }
 

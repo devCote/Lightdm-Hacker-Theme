@@ -2,9 +2,25 @@
   import { slide } from 'svelte/transition'
   import { isAuthenticationError, isAuthenticated } from '../store'
   import lightdm from '../constants/lightdm'
+  import { setLocalStorage } from '../helpers/functions'
+  import { DEFAULT_SESSION } from '../constants/variables'
 
   const username = 'devcote'
   let password = ''
+  let currentSession = lightdm.sessions[0].key
+  const sessions = lightdm.sessions
+
+  function handleClick() {
+    let totalSessions = sessions.length
+    let newSessionIndex = sessions.map(session => session.key).indexOf(currentSession)+1;
+
+    if (newSessionIndex < totalSessions) {
+      currentSession = sessions[newSessionIndex].key
+    } else {
+      currentSession = sessions[0].key
+    }
+    setLocalStorage(DEFAULT_SESSION, currentSession)
+  }
 
   function handleOnSubmit() {
     lightdm.cancel_authentication()
@@ -32,15 +48,15 @@
         autofocus
       />
     </form>
+    <button on:click={handleClick} class="ml-auto">{currentSession}</button>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
   {/if}
 </div>
 
 <style>
   .main_container {
-    font-family: 'june';
+    font-family: 'FiraCode';
     background: rgba(0, 20, 0, 0.3);
-    border: 1px solid #0f0;
     backdrop-filter: blur(10px); /* Blur effect */
     padding: 30px 50px;
   }
@@ -55,7 +71,6 @@
     h1 {
     color: #0f0;
     font-weight: bold;
-    letter-spacing: 2px;
     font-size: 2em;
   }
 
